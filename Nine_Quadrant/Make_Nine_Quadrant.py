@@ -132,7 +132,8 @@ NQ_ls_Command = '\n'+'cd Nine_Quadrant_Movies'+'\n'+'ffmpeg -i '+wave_set[0]+'.m
 NQ_Scale_Command ='-filter_complex "color=s=3200x1800:c=black [base];[0:v] setpts=PTS-STARTPTS, scale=600x600 [a];[1:v] setpts=PTS-STARTPTS, scale=600x600 [b];[2:v] setpts=PTS-STARTPTS, scale=600x600 [c];[3:v] setpts=PTS-STARTPTS, scale=600x600 [d];[4:v] setpts=PTS-STARTPTS, scale=600x600 [e];[5:v] setpts=PTS-STARTPTS, scale=600x600 [f];[6:v] setpts=PTS-STARTPTS, scale=550x550 [g];[7:v] setpts=PTS-STARTPTS, scale=550x550 [h];[8:v] setpts=PTS-STARTPTS, scale=550x550 [i];'
 NQ_Overlay_Command='[base][a] overlay=shortest=1:x=233[tmp1];[tmp1][b] overlay=shortest=1:x=1300[tmp2];[tmp2][c] overlay=shortest=1:x=2368[tmp3];[tmp3][d] overlay=shortest=1:x=233:y=600[tmp4];[tmp4][e] overlay=shortest=1:x=1300:y=600[tmp5];[tmp5][f] overlay=shortest=1:x=2368:y=600[tmp6];[tmp6][g] overlay=shortest=1:x=233:y=1250[tmp7];[tmp7][h] overlay=shortest=1:x=1300:y=1250[tmp8];[tmp8][i] overlay=shortest=1:x=2368:y=1250" -y Nine_Quadrant_Video.mp4'  
 Make_NQ = NQ_ls_Command+NQ_Scale_Command+NQ_Overlay_Command
-Move_Display = '\n'+'cp Nine_Quadrant_Video.mp4 ../../VIDEO_WALL_DISPLAY/Nine_Quadrant_Video.mp4'+'\n' 
+#Move_Display = '\n'+'cp Nine_Quadrant_Video.mp4 ../../VIDEO_WALL_DISPLAY/Nine_Quadrant_Video.mp4'+'\n' 
+Move_Display = ''
 #####################################################
 #    Write and Exucute all the built commands       #
 #####################################################
