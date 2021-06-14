@@ -13,20 +13,40 @@ from datetime import timedelta as dt
 import numpy as np
 import subprocess
 
-#          Set wavelength and date parameters below     
+#          Set wavelength and  parameters below     
       
 #Select the 9 wavelengths that will be made into the 9-quadrant movie
 #wave_set = ['0094','0131', '0171', '0211', '0304', '1700', 'HMIIF', 'HMIBC', 'HMIIC']
 wave_set = ['0094','0131', '0171', '0211', '0193', '0304', '0335', '1600', '1700']
 
+user_input = True
+#user_input = False
+
 ###########  Start time and span  #################
-eday = datetime.utcnow()
+if user_input == True:
+        print("Enter the starting date in the form of YYYYMMDD:")
+        start_date = raw_input()
+        print("Enter the end date in the form of YYYYMMDD:")
+        end_date = raw_input()
 
-span = 7 #Span of days that the movie will cover
-sday = eday-dt(days=span)
+        start_year= int(start_date[0:4])
+        start_month= int(start_date[4:6])
+        start_day= int(start_date[6:8])
+        end_year= int(end_date[0:4])
+        end_month= int(end_date[4:6])
+        end_day= int(end_date[6:8])
 
-sday = datetime(2021, 05, 7, 12, 0, 0, 0)
-eday = datetime(2021, 05, 8, 0, 0, 0, 0)
+        sday = datetime(start_year, start_month, start_day, 0, 0, 0)
+        eday = datetime(end_year, end_month, end_day, 0, 0, 0)
+
+if user_input == False:
+        eday = datetime.utcnow()
+
+        span = 7 #Span of days that the movie will cover
+        sday = eday-dt(days=span)
+
+        sday = datetime(2021, 05, 7, 12, 0, 0, 0)
+        eday = datetime(2021, 05, 8, 0, 0, 0, 0)
 
 ########################################################################################
 
@@ -81,7 +101,8 @@ for wave in wave_set:
             YYYY = dayt[0:4]
             MM = dayt[4:6]
             DD = dayt[6:8]
-            new_vid_com=new_vid_com+'wget https://sdo.gsfc.nasa.gov/assets/img/dailymov/'+YYYY+'/'+MM+'/'+DD+'/'+dayt+'_1024_'+wave+'.mp4'+'\n'
+            new_vid_com=new_vid_com+'python -c '+'"import wget; wget.download('+"'https://sdo.gsfc.nasa.gov/assets/img/dailymov/"+YYYY+'/'+MM+'/'+DD+'/'+dayt+'_1024_'+wave+".mp4')"+'"'+'\n'
+            #new_vid_com=new_vid_com+'wget https://sdo.gsfc.nasa.gov/assets/img/dailymov/'+YYYY+'/'+MM+'/'+DD+'/'+dayt+'_1024_'+wave+'.mp4'+'\n'
     
     #Create command to make movie out of the data (writes all files in folder to txt file then merges with ffmpeg)
     make_movie_com ='rm *.txt'+'\n'+'find *.mp4 >> temp.txt'+'\n'+'foreach v (`cat temp.txt`)'+'\n'+'echo file $v >> file_list.txt'+'\n'+'end'+'\n'+'ffmpeg -nostdin -f concat -safe 0 -i file_list.txt ../Nine_Quadrant_Movies/'+wave+'.mp4'+'\n'+'rm *.txt'+'\n'+'cd ../'       
@@ -98,7 +119,7 @@ for wave in wave_set:
 days = movie_days[(len(movie_days)-4):-1]
 stereo_download = ''
 for dayt in days:
-    data_link = 'wget https://stereo-ssc.nascom.nasa.gov/browse/'+str(dayt.year)+'/'+str(dayt.month).zfill(2)+'/'+str(dayt.day).zfill(2)+'/ahead_'+str(dayt.year)+str(dayt.month).zfill(2)+str(dayt.day).zfill(2)+'_euvi_195_512.mpg'+'\n'
+    data_link = 'python -c '+'"import wget; wget.download('+"'https://stereo-ssc.nascom.nasa.gov/browse/"+str(dayt.year)+'/'+str(dayt.month).zfill(2)+'/'+str(dayt.day).zfill(2)+'/ahead_'+str(dayt.year)+str(dayt.month).zfill(2)+str(dayt.day).zfill(2)+"_euvi_195_512.mpg')"+'"'+'\n'
     stereo_download = stereo_download + data_link
 
 #Rest of the stereo movie command
