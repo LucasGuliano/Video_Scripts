@@ -85,7 +85,7 @@ for dayt in date_array:
         YYYY = dayt[0:4]
         MM = dayt[4:6]
         DD = dayt[6:8]
-                new_vid_com=new_vid_com+'python -c '+'"import wget; wget.download('+"'https://sdo.gsfc.nasa.gov/assets/img/dailymov/"+YYYY+'/'+MM+'/'+DD+'/'+dayt+'_1024_'+wave+".mp4')"+'"'+'\n'
+        new_vid_com=new_vid_com+'python -c '+'"import wget; wget.download('+"'https://sdo.gsfc.nasa.gov/assets/img/dailymov/"+YYYY+'/'+MM+'/'+DD+'/'+dayt+'_1024_'+wave+".mp4')"+'"'+'\n'
 
 #Create command to make movie out of the data (writes all files in folder to txt file then merges with ffmpeg)
 make_movie_com ='rm *.txt'+'\n'+'find *.mp4 >> temp.txt'+'\n'+'foreach v (`cat temp.txt`)'+'\n'+'echo file $v >> file_list.txt'+'\n'+'end'+'\n'+'ffmpeg -nostdin -f concat -safe 0 -i file_list.txt '+wave+'_'+start_date+'_to_'+end_date+'.mp4'+'\n'+'rm *.txt'+'\n'       
